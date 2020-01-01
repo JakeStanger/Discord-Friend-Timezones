@@ -20,7 +20,7 @@ session = Session()
 class UserZone(Base):
     __tablename__ = 'UserZone'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(String(18), primary_key=True)
     zone = Column(String(64))
 
 
