@@ -5,7 +5,7 @@ A small Discord timezones bot for keeping track of other users' timezones and lo
 You can invite the bot [here](https://discordapp.com/oauth2/authorize?client_id=661969491407798303&permissions=0&scope=bot)
 or host it yourself.
 
-
+![screenshot](https://f.jstanger.dev/github/discord-friend-timezones/screenshot.png)
 
 ## Features
 
