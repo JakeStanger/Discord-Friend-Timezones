@@ -5,12 +5,14 @@ A small Discord timezones bot for keeping track of other users' timezones and lo
 You can invite the bot [here](https://discordapp.com/oauth2/authorize?client_id=661969491407798303&permissions=0&scope=bot)
 or host it yourself.
 
+![screenshot](https://f.jstanger.dev/github/discord-friend-timezones/screenshot.png)
+
 ## Features
 
 - Each user sets their timezone with `--tzset <timezone>`. 
 This supports fuzzy matching, so you can set it to `Europe/London` with `--tzset london` for example.
 - View users' timezones with `--tzget <list of mentions>`.
-- View users' local times with `--time <list of mentions`.
+- View users' local times with `--time <list of mentions>`.
 
 ## Self-Hosting
 
