@@ -28,4 +28,6 @@ You need at least Python 3.6 installed. It is also recommended to use a virtuale
 }
 ```
 
-These are example values, any prefix or database URI can be used.
+> These are example values, any prefix or database URI can be used.
+
+- Run `python bot.py`
