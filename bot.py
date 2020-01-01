@@ -44,6 +44,7 @@ bot = commands.Bot(command_prefix=settings['prefix'])
 @bot.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
+    await bot.change_presence(activity=discord.Game('%shelp' % settings['prefix']))
 
 
 @bot.command(name='tzset')
