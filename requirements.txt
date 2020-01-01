@@ -1,0 +1,4 @@
+discord.py
+pytz
+sqlalchemy
+fuzzywuzzy
