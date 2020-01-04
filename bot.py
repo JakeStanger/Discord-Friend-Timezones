@@ -14,7 +14,6 @@ with open('settings.json', 'r') as f:
 engine = create_engine(settings['database'])
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
-session = Session()
 
 
 class UserZone(Base):
@@ -27,14 +26,16 @@ class UserZone(Base):
 Base.metadata.create_all(engine)
 
 
-def get_or_create(model, **kwargs):
+def get_or_create(session, model, **kwargs):
     instance = session.query(model).filter_by(**kwargs).first()
     if instance:
+
         return instance
     else:
         instance = model(**kwargs)
         session.add(instance)
         session.commit()
+
         return instance
 
 
@@ -54,7 +55,8 @@ async def set_zone(ctx, *, timezone):
     else:
         zone = process.extractOne(timezone, pytz.all_timezones)[0]
 
-    user_zone = get_or_create(UserZone, id=ctx.author.id)
+    session = Session()
+    user_zone = get_or_create(session, UserZone, id=ctx.author.id)
     user_zone.zone = zone
     session.commit()
 
@@ -62,7 +64,9 @@ async def set_zone(ctx, *, timezone):
 
 
 def query_zone(user: discord.Member):
+    session = Session()
     zone = session.query(UserZone).filter_by(id=user.id).first()
+    session.close()
 
     if zone:
         return zone.zone
