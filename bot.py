@@ -93,7 +93,7 @@ async def info_error(ctx, error):
 @bot.command(name='tzget')
 async def get_zone(ctx, users: commands.Greedy[discord.Member]):
     if len(users) == 0:
-        return await ctx.send("You must mention at least one user")
+        users = [ctx.author]
 
     await ctx.send('\n'.join([
         '%s: **%s**' % (user.nick or user.name,
