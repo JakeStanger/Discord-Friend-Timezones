@@ -60,7 +60,7 @@ async def set_zone(ctx, *, timezone):
     user_zone.zone = zone
     session.commit()
 
-    await ctx.send("Set to **%s**" % zone)
+    await ctx.send("Set your time zone to **%s**" % zone)
 
 
 def query_zone(user: discord.Member):
