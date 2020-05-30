@@ -26,7 +26,7 @@ class UserZone(Base):
 Base.metadata.create_all(engine)
 
 
-def get_or_create(session, model, **kwargs):
+async def get_or_create(session, model, **kwargs):
     instance = session.query(model).filter_by(**kwargs).first()
     if instance:
 
@@ -56,14 +56,14 @@ async def set_zone(ctx, *, timezone):
         zone = process.extractOne(timezone, pytz.all_timezones)[0]
 
     session = Session()
-    user_zone = get_or_create(session, UserZone, id=ctx.author.id)
+    user_zone = await get_or_create(session, UserZone, id=ctx.author.id)
     user_zone.zone = zone
     session.commit()
 
     await ctx.send("Set your time zone to **%s**" % zone)
 
 
-def query_zone(user: discord.Member):
+async def query_zone(user: discord.Member):
     session = Session()
     zone = session.query(UserZone).filter_by(id=user.id).first()
     session.close()
@@ -74,7 +74,7 @@ def query_zone(user: discord.Member):
         return 'Not set'
 
 
-def get_zone_time(zone: str):
+async def get_zone_time(zone: str):
     if zone == 'Not set':
         return zone
 
@@ -97,7 +97,7 @@ async def get_zone(ctx, users: commands.Greedy[discord.Member]):
 
     await ctx.send('\n'.join([
         '%s: **%s**' % (user.nick or user.name,
-                        query_zone(user))
+                        await query_zone(user))
         for user in set(users)
     ]))
 
@@ -109,8 +109,18 @@ async def get_time(ctx, users: commands.Greedy[discord.Member]):
 
     await ctx.send('\n'.join([
         '%s: **%s**' % (user.nick or user.name,
-                        get_zone_time(query_zone(user)))
+                        await get_zone_time(await query_zone(user)))
         for user in set(users)
     ]))
 
+@bot.command(name='tzlist',help='Get a list of available timezones')
+async def get_tzlist(self, ctx, country=None):
+    if country != None:
+        if len(country) == 2:
+            await ctx.send(f'Available timezones for {pytz.country_names[country.upper()]} are:\n{", ".join(pytz.country_timezones[country.upper()])}')
+        else:
+            await ctx.send('Please specify a two letter coutry code')
+        else:
+            await ctx.send('Please specify a two letter coutry code')
+    
 bot.run(settings['token'])
