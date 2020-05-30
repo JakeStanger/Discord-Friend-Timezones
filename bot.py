@@ -113,4 +113,14 @@ async def get_time(ctx, users: commands.Greedy[discord.Member]):
         for user in set(users)
     ]))
 
+@bot.command(name='tzlist',help='Get a list of available timezones')
+async def get_tzlist(self, ctx, country=None):
+    if country != None:
+        if len(country) == 2:
+            await ctx.send(f'Available timezones for {pytz.country_names[country.upper()]} are:\n{", ".join(pytz.country_timezones[country.upper()])}')
+        else:
+            await ctx.send('Please specify a two letter coutry code')
+        else:
+            await ctx.send('Please specify a two letter coutry code')
+    
 bot.run(settings['token'])
